@@ -1,0 +1,6 @@
+gradio
+scikit-learn
+joblib
+google-genai
+python-dotenv
+huggingface_hub

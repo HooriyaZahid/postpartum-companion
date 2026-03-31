@@ -3,12 +3,28 @@ from dotenv import load_dotenv
 import gradio as gr
 import joblib
 from google import genai
+from huggingface_hub import hf_hub_download
+
 load_dotenv()
-# Load your trained model with different variable names to avoid conflict
+
+# Download model files from Hugging Face if not present
+if not os.path.exists("emotion_model.pkl"):
+    hf_hub_download(
+        repo_id="HoorenSalazar/postpartum-emotion-classifier",
+        filename="emotion_model.pkl",
+        local_dir="."
+    )
+
+if not os.path.exists("vectorizer.pkl"):
+    hf_hub_download(
+        repo_id="HoorenSalazar/postpartum-emotion-classifier",
+        filename="vectorizer.pkl",
+        local_dir="."
+    )
+
 emotion_classifier = joblib.load("emotion_model.pkl")
 tfidf_vectorizer = joblib.load("vectorizer.pkl")
 
-# Your Gemini API key
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
 client = genai.Client(api_key=GEMINI_API_KEY)
 
@@ -30,7 +46,7 @@ Do not use clinical language. Act like a therapist and give any advices needed.
 User message: {message}"""
 
     response = client.models.generate_content(
-     model="gemini-2.5-flash",
+        model="gemini-2.5-flash",
         contents=prompt
     )
     reply = response.text

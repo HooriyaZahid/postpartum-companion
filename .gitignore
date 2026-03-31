@@ -6,3 +6,5 @@ __pycache__/
 train.csv
 val.csv
 test.csv
+emotion_model.pkl
+vectorizer.pkl

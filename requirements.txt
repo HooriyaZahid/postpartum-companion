@@ -4,3 +4,4 @@ joblib
 google-genai
 python-dotenv
 huggingface_hub
+pillow==10.2.0
